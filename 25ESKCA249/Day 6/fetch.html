@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Cards
+        </title>
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    </head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Student Records</h2>
+        <input type="text" id="search" class="form-control mb-4" placeholder="Search Student">
+        <div id="container" class="row g-4"></div>
+    </div>
+</body>
+<script>
+
+
+
+
+    fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data);
+
+            let html = "";
+
+            for (let i = 0; i < data.length; i++) {
+                html += `
+            <div class="col-md-4 card-item">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+
+                        <h4>${data[i].name}</h4>
+
+                        <img src="https://i.pravatar.cc/150?img=${i + 1}" 
+                        class="img-fluid rounded-circle mb-3">
+                        <button class="btn btn-primary btn-sm mt-2 show-btn">
+                        Show Details
+                        </button>
+
+                        <button class="btn btn-danger btn-sm mt-2 hide-btn">
+                        Hide Details
+                        </button>
+
+                        <div class="details mt-3" style="display:none;">
+                            <p><strong>Company:</strong> ${data[i].company.name}</p>
+                            <p><strong>Email:</strong> ${data[i].email}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            `;
+            }
+
+
+            document.getElementById("container").innerHTML = html;
+
+            // Show details on button click
+
+            $(".btn").click(function () {
+                $(this).next(".details").slideToggle();
+            });
+
+            
+
+            $(".show-btn").click(function () {
+                $(this).nextAll(".details").fadeIn();
+            });
+
+            
+            $(".hide-btn").click(function () {
+                $(this).nextAll(".details").fadeOut();
+            });
+
+
+
+            //Search Details
+            $("#search").keyup(function () {     //key up action complete h 
+                let value = $(this).val().toLowerCase();   //lower case isliye kyuki case sensitive na ho search
+
+                $(".card-item").each(function () {
+                    let name = $(this).find("h4").text().toLowerCase();  //h4 me name h to h4 find kiya
+                    if (name.includes(value)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+            //promise is a object which is used to handle asynchronous operations in JavaScript. It represents a value that may be available now, or in the future, or never.
+            //matlab pehla kaam khtm hoga tab dusra hoga shuru
+
+            //name
+            //address
+
+            // let names = data.map(user=>user.name);
+            // console.log(names);
+
+            // let addresses = data.map(user=>user.address);
+            // console.log(addresses);
+
+
+
+        });
+
+
+    //json se value chahiye iss card me
+
+    //https://i.pravatar.cc/150?img={id}
+
+
+
+</script>
+
+</html>
